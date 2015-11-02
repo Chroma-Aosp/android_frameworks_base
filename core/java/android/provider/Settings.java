@@ -2500,6 +2500,18 @@ public final class Settings {
         public static final int SCREEN_BRIGHTNESS_MODE_AUTOMATIC = 1;
 
         /**
+         * Whether to show battery saver notification
+         * @hide
+         */
+        public static final String BATTERY_SAVER_NOTIFICATION = "battery_saver_notification";
+
+        /**
+         * Whether to show low battery notification
+         * @hide
+         */
+        public static final String BATTERY_LOW_NOTIFICATION = "battery_low_notification";
+
+        /**
          * Whether to control brightness from status bar
          *
          * @hide
@@ -3434,6 +3446,12 @@ public final class Settings {
         public static final String NAVIGATION_BAR_HEIGHT = "navigation_bar_height";
 
         /**
+         * Navigation bar height when it is on landscape
+         * @hide
+         */
+        public static final String NAVIGATION_BAR_HEIGHT_LANDSCAPE = "navigation_bar_height_landscape";
+
+        /**
          * Navigation bar height when it is on landscape at the right
          * @hide
          */
@@ -3571,6 +3589,40 @@ public final class Settings {
          * @hide
          */
         public static final String RECENTS_SHOW_SEARCH_BAR = "recents_show_search_bar";
+
+        /**
+         * This preference enables showing the power menu on LockScreen.
+         * @hide
+         */
+        public static final String LOCKSCREEN_ENABLE_POWER_MENU = "lockscreen_enable_power_menu";
+
+       /**
+	* Network traffic indicator, goes from least to greatest significant bitwise
+	* 0 = Display up-stream traffic if set
+	* 1 = Display down-stream traffic if set
+	* 2 = Show as Byte/s if set
+	* 16-31 = Refresh interval(ms) min: 250 max: 32750 default: 1000
+	* @hide
+	*/
+        public static final String NETWORK_TRAFFIC_STATE = "network_traffic_state";
+
+        /**
+         * Whether or not to hide the network traffic indicator when there is no activity
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE = "network_traffic_autohide";
+
+        /**
+         * Network traffic inactivity threshold (default is 10 kBs)
+         * @hide
+         */
+        public static final String NETWORK_TRAFFIC_AUTOHIDE_THRESHOLD = "network_traffic_autohide_threshold";
+
+        /**
+         * Whether to show the IME arrows in the status bar
+         * @hide
+         */
+        public static final String STATUS_BAR_IME_ARROWS = "status_bar_ime_arrows";
 
         /**
          * Settings to backup. This is here so that it's in the same place as the settings
@@ -7971,6 +8023,24 @@ public final class Settings {
          * @hide
          */
         public static final String POLICY_CONTROL = "policy_control";
+
+        /**
+         * Defines global runtime overrides to window policy style.
+         *
+         * See {@link android.view.WindowManagerPolicyControl} for value definitions.
+         *
+         * @hide
+         */
+        public static final String POLICY_CONTROL_STYLE = "policy_control_style";
+
+        /**
+         * Defines global runtime overrides to window policy.
+         *
+         * See {@link android.view.WindowManagerPolicyControl} for value format.
+         *
+         * @hide
+         */
+        public static final String POLICY_CONTROL_SELECTED = "policy_control_selected";
 
         /**
          * Defines global zen mode.  ZEN_MODE_OFF, ZEN_MODE_IMPORTANT_INTERRUPTIONS,

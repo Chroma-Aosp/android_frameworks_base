@@ -216,6 +216,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private static final int MSG_CLOSE_PANELS = 1001;
     private static final int MSG_OPEN_SETTINGS_PANEL = 1002;
     private static final int MSG_LAUNCH_TRANSITION_TIMEOUT = 1003;
+    private static final int MSG_UPDATE_NOTIFICATIONS = 1004;
     // 1020-1040 reserved for BaseStatusBar
 
     // Time after we abort the launch transition.
@@ -302,6 +303,8 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
     private DozeServiceHost mDozeServiceHost;
     private boolean mScreenOnComingFromTouch;
     private PointF mScreenOnTouchLocation;
+    private BatteryMeterView mBatteryView;
+    private BatteryLevelTextView mBatteryTextView;
 
     int mPixelFormat;
     Object mQueueLock = new Object();
@@ -1545,12 +1548,18 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
         return entry.row.getParent() instanceof NotificationStackScrollLayout;
     }
 
-    @Override
-    protected void updateNotifications() {
+    private void handleUpdateNotifications() {
         mNotificationData.filterAndSort();
 
         updateNotificationShade();
         mIconController.updateNotificationIcons(mNotificationData);
+    }
+
+    @Override
+    protected void updateNotifications() {
+        if (!mHandler.hasMessages(MSG_UPDATE_NOTIFICATIONS)) {
+            mHandler.sendEmptyMessage(MSG_UPDATE_NOTIFICATIONS);
+        }
     }
 
     @Override
@@ -2169,6 +2178,9 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                 case MSG_LAUNCH_TRANSITION_TIMEOUT:
                     onLaunchTransitionTimeout();
                     break;
+                case MSG_UPDATE_NOTIFICATIONS:
+                    handleUpdateNotifications();
+                    break;
             }
         }
     }
@@ -2376,7 +2388,7 @@ public class PhoneStatusBar extends BaseStatusBar implements DemoMode,
                     ServiceManager.getService("power"));
             if (power != null) {
                 if (mAutomaticBrightness) {
-                    float adj = (value * 100) / (BRIGHTNESS_ADJ_RESOLUTION / 2f) - 1;
+                    float adj = (2 * value) - 1;
                     adj = Math.max(adj, -1);
                     adj = Math.min(adj, 1);
                     final float val = adj;
